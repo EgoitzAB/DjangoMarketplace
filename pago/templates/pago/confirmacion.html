@@ -1,0 +1,18 @@
+{% extends "pages/base.html" %}
+
+{% block content %}
+  <h1>Confirmación de Compra</h1>
+  <p>Gracias por tu compra, {{ compra.usuario.username }}.</p>
+  <p>Tu número de compra es: {{ compra.id }}.</p>
+  <p>Total de la compra: ${{ compra.total }}</p>
+  <p>Teléfono de contacto: {{ compra.telefono }}</p>
+  
+  <h2>Detalles de los productos:</h2>
+  <ul>
+    {% for detalle in compra.detallecompra_set.all %}
+      <li>{{ detalle.producto.nombre }} - Cantidad: {{ detalle.cantidad }}</li>
+    {% endfor %}
+  </ul>
+  
+  <p>Esperamos que disfrutes tus productos. ¡Gracias por tu preferencia!</p>
+{% endblock %}

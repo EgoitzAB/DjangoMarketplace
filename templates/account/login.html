@@ -1,0 +1,105 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block extrahead %}
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static '/css/retoque.css' %}">
+{% endblock extrahead %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center mb-5">
+        <h2 class="heading-section">Iniciar sesión</h2>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-7 col-lg-5">
+        <div class="wrap">
+          <div class="img img-login">
+            <img src="{% static '/images/Semillas-marihuana-medicinal-tratamiento-patologias_1546355394_134037583_1200x675.jpg' %}" alt="fondo de pantalla">
+          </div>
+            <div class="login-wrap p-4 p-md-5">
+          
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="mb-4">Sign In</h3>
+              <p class="social-media d-flex justify-content-end">
+                <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+                <a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+              </p>
+            </div>
+          
+            <form method="POST" action="{% url 'account_login' %}" class="sign-in">
+              {% csrf_token %}
+              
+              <div class="form-group mt-3">
+                <label class="form-control-placeholder" for="{{ form.login.id_for_label }}">Usuario</label>
+                <input type="text" name="login" autocomplete="username" maxlength="150" class="form-control" required id="{{ form.login.id_for_label }}">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-control-placeholder" for="{{ form.password.id_for_label }}">Contraseña</label>
+                <div class="input-group">
+                  <input id="password-field" type="password" name="{{ form.password.name }}" class="form-control" required>
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-light toggle-password" id="toggle-password" toggle="#password-field"><i class="fa fa-eye"></i></button>
+                  </div>
+                </div>
+              </div>
+              
+              {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
+              
+              <div class="form-group">
+                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Entrar</button>
+              </div>
+            
+              
+              <div class="form-group d-md-flex">
+                <div class="w-50 text-left">
+                  <label class="checkbox-wrap checkbox-primary mb-0">Recordar
+                    <input type="checkbox" checked>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </form>
+                
+                <div class="w-50 text-md-right">
+                  <a href="{% url 'account_reset_password' %}">He olvidado mi contraseña</a>
+                </div>
+              </div>
+            
+            <p class="text-center">¿No tiene cuenta? <a href="{% url 'account_signup' %}">Registrarse</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  document.getElementById('toggle-password').addEventListener('click', function() {
+    const passwordField = document.getElementById('password-field');
+    const fieldType = passwordField.getAttribute('type');
+    
+    if (fieldType === 'password') {
+      passwordField.setAttribute('type', 'text');
+    } else {
+      passwordField.setAttribute('type', 'password');
+    }
+  });
+</script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}

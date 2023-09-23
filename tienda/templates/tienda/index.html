@@ -1,0 +1,121 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block extrahead %}
+<style>
+
+.separator {
+  height: 12vh; /* Grosor del separador en rem */
+  background-color: #ccc; /* Color del separador */
+  opacity: 0;
+}
+
+.separator-category {
+  height: 3rem; /* Grosor del separador en rem */
+  background-color: white; /* Color del separador */
+  opacity: 1;
+}
+
+.carousel-img {
+  width: 300px; /* Ancho deseado */
+  height: 200px; /* Alto deseado */
+  object-fit: cover; /* Asegura que la imagen cubra completamente el espacio */
+}
+
+.video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Mantén esta proporción para videos 16:9 */
+        }
+        
+        .video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+</style>
+{% endblock extrahead %}
+
+{% block title %}
+Tienda CBD
+{% endblock title %}
+
+{% block navbar%}
+{% include 'pages/navbar.html' %}
+
+{% endblock navbar %}
+{% block body_class %}
+class= "main-background"
+{% endblock body_class %}
+{% block content %}
+
+<div class="video-container">
+    <video class="video" autoplay muted loop>
+        <source src="media/videos/vecteezy_close-up-hemp-tree-s-leaves-blowing-in-the-wind_1624101.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de videos.
+    </video>
+    <div class="text-overlay">
+        <h1 class="display-1">La Revolución Verde CBD</h1>
+    </div>
+</div>
+<div class="separator"></div>
+    
+    <section class="container" style="background-color: white;">
+        <div class="about-section separator-category text-center">
+            <h2>Sobre nosotros</h2>
+            <p>Ubicada en la magnífica zona de la ciudad, ofrece una de las mejores gamas y una muestra . Imprescindible la visita,
+                atención exquisita que nunca deja defraudado. </p>
+        </div>
+        
+        <div class="separator"></div>
+        
+        {% for categoria, productos in categorias_con_productos.items %}
+        <div class="category-section separator-category display-flex text-center" style="background-color: white;">
+            <h2>{{ categoria }}</h2>
+        </div>
+        
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="background-color: white;">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        {% for producto in productos %}
+                        {% if producto.fotos %}
+                            <div class="col-md-4" style="margin: 2rem auto; background-color: white;">
+                                <p>{{ producto.name | title}}</p>
+                                <a href="{% url 'tienda:detalle' slug=producto.slug %}">
+                                <img src="{{ producto.fotos.url }}" alt="{{ producto.nombre }}" class="d-block w-100 carousel-img">
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separator"></div>
+    {% endfor %}
+        <section class="blog-section section">
+            <h2>Blogs</h2>
+            <p>Aquí puedes presentar tus blogs más recientes.</p>
+        </section>
+    </section>
+    
+    <div class="separator"></div>
+{% endblock content %}
+{% block javascript %}
+
+<script src="{% static '/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/js/jquery.sticky.js' %}"></script>
+<script src="{% static '/js/main.js' %}"></script>
+{% endblock javascript %}

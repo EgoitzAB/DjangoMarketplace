@@ -1,0 +1,67 @@
+{% extends "pages/base.html" %}
+{% load i18n %}
+{% load account %}
+
+{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
+
+{% block content %}
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center mb-5">
+        <h2 class="heading-section">{% trans "Confirm E-mail Address" %}</h2>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-7">
+        <div class="wrap">
+          <div class="email-wrap p-4 p-md-5">
+            {% if confirmation %}
+              {% user_display confirmation.email_address.user as user_display %}
+              {% if can_confirm %}
+                <p>
+                  {% blocktrans with confirmation.email_address.email as email %}
+                    Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.
+                  {% endblocktrans %}
+                </p>
+                <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-primary">{% trans 'Confirm' %}</button>
+                </form>
+              {% else %}
+                <p>
+                  {% blocktrans %}
+                    Unable to confirm {{ email }} because it is already confirmed by a different account.
+                  {% endblocktrans %}
+                </p>
+              {% endif %}
+            {% else %}
+              {% url 'account_email' as email_url %}
+              <p>
+                {% blocktrans %}
+                  This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.
+                {% endblocktrans %}
+              </p>
+            {% endif %}
+            <p><a href="{% url 'tienda:home' %}" id="home-link">{% trans "Volver a página principal" %}</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const homeLink = document.getElementById("home-link");
+    if (homeLink) {
+      homeLink.addEventListener("click", function() {
+        window.location.href = "{% url 'tienda:home' %}";
+      });
+    }
+  });
+</script>
+{% endblock %}
+

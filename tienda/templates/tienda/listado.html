@@ -1,0 +1,94 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% get_static_prefix %}css/style.css">
+
+
+
+{% endblock extrahead %}
+
+{% block title %}
+Nuestros productos
+{% endblock title %}
+
+{% block navbar %}
+{% include 'pages/navbar.html' %}
+{% endblock navbar %}
+{% block content %}
+<!-- Nuevo trozo para las opciones -->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>Filtrar por categoría:</h4>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}" class="{% if not request.GET.categoria %}active{% endif %}">Todas</a>
+          
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=ROPA" class="{% if request.GET.categoria == 'ROPA' %}active{% endif %}">Ropa</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=FLORES" class="{% if request.GET.categoria == 'FLORES' %}active{% endif %}">Flores</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=COSMÉTICOS" class="{% if request.GET.categoria == 'COSMÉTICOS' %}active{% endif %}">Cosméticos</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=COMESTIBLES" class="{% if request.GET.categoria == 'COMESTIBLES' %}active{% endif %}">Comestibles</a>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'tienda:listado' %}?categoria=VARIOS" class="{% if request.GET.categoria == 'VARIOS' %}active{% endif %}">Varios</a>
+        </li>
+        <!-- Agregar más opciones de categorías aquí -->
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <h2 class="text-center md-4">
+        {% if request.GET.categoria %}
+          {{ request.GET.categoria }}
+        {% else %}
+          TODOS LOS PRODUCTOS
+        {% endif %}
+      </h2>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        
+        {% for product in productos %}
+        <div class="col">
+          <div class="card h-100 card-principal-listado">
+            <div class="hover-container position-relative overflow-hidden">
+              <div class="card-body text-center">
+                <h5 class="card-title">{{ product.name }}</h5>
+                {% if product.fotos %}
+                  <a href="{{ product.slug }}">
+                    <img src="{{ product.fotos.url }}" class="card-img-top img-listado mx-auto img-hover-grow" alt="{{ product.name }}">
+                  </a>
+                {% else %}
+                  <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado mx-auto img-hover-grow" alt="{{ product.name }}">
+                {% endif %}
+                <div class="display-hover">
+                  <a href="{{ product.slug }}">
+                    <button type="submit">Ver producto</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<a href=#>Pagar</a>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery.sticky.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock javascript %}

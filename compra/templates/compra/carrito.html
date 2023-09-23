@@ -1,0 +1,53 @@
+{% extends 'pages/base.html' %}
+{% block navbar %}
+{% include 'pages/navbar.html' %}
+{% endblock navbar %}
+{% block content %}
+<h2>Productos en el carrito:</h2>
+{% if carrito %}
+  <ul class="list-unstyled">
+    {% for producto_id, producto_data in carrito.carrito.items %}
+      <li class="mb-3">
+        <div class="d-flex align-items-center">
+          <div class="mr-3">
+            <!-- Agrega aquí la imagen a la izquierda -->
+            <a href="{% url 'tienda:detalle' slug=producto_data.link %}">
+            <img src="{{ producto_data.foto }}" alt="Imagen del producto" width="100" height="75">
+          </a>
+          </div>
+          <div>
+            <strong>Nombre del Producto:</strong> {{ producto_data.name }}<br>
+            <strong>Precio:</strong> ${{ producto_data.precio }}<br>
+            <strong>Cantidad:</strong> {{ producto_data.quantity }}
+          </div>
+          <form action="{% url 'compra:eliminar' producto_id=producto_id %}" method="post" class="ml-auto">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+          </form>
+          <form action="{% url 'compra:restar' producto_id=producto_id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary btn-sm">-</button>
+          </form>
+          <form action="{% url 'compra:agregar' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="producto_id" value="{{ producto_id }}">
+            {% if producto_data.stock > producto_data.quantity %}
+              <button type="submit" class="btn btn-success btn-sm">+</button>
+            {% else %}
+              <button type="button" class="btn btn-success btn-sm" disabled>+<span class="text-danger"> Límite de stock</span></button>
+            {% endif %}
+          </form>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <p>Total del Carrito: ${{ carrito_total }}</p>
+
+  <a href="{% url 'pago:create_order' %}" class="btn btn-primary">Pagar</a>
+  <a href="{% url 'pago:prueba_order' %}" class="btn btn-primary">Probar</a>
+
+  <a href="{% url 'tienda:listado' %}" class="btn btn-secondary">Volver a la tienda</a>
+{% else %}
+  <p>No se ha añadido ningún producto al carrito.</p>
+{% endif %}
+{% endblock content %}
