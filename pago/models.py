@@ -1,27 +1,28 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from phonenumber_field.modelfields import PhoneNumberField
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 from tienda.models import Producto
 
 User = get_user_model()
 
 class Order(models.Model):
+    
+
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='cliente')
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField()
-    telefono = PhoneNumberField(null=False, blank=False)
-
+    telefono = PhoneNumberField()
     city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    country = CountryField(blank_label="Selecciona un país: ")
     line1 = models.CharField(max_length=255)
     line2 = models.CharField(max_length=255, null=True, blank=True)
     postal_code = models.CharField(max_length=10)
-    state = models.CharField(max_length=100, null=True, blank=True)
-
+    provincia = models.CharField(max_length=100, null=True, blank=True)
     productos = models.ManyToManyField(Producto)
     total = models.IntegerField()
-    is_paid = models.BooleanField(default=False)
     payment_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
@@ -48,3 +49,12 @@ class ArchivedUser(models.Model):
 
     def __str__(self):
         return f"Archived User: {self.user.username} ({self.user.id})"
+    
+class PaygreenWebhookMessage(models.Model):
+    received_at = models.DateTimeField(help_text="When we received the event.")
+    payload = models.JSONField(default=None, null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["received_at"]),
+        ]

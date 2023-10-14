@@ -41,6 +41,7 @@
       </li>
     {% endfor %}
   </ul>
+  {% if carrito.carrito.items %}
   <p>Total del Carrito: ${{ carrito_total }}</p>
 
   <a href="{% url 'pago:create_order' %}" class="btn btn-primary">Pagar</a>
@@ -48,6 +49,8 @@
 
   <a href="{% url 'tienda:listado' %}" class="btn btn-secondary">Volver a la tienda</a>
 {% else %}
-  <p>No se ha añadido ningún producto al carrito.</p>
+  <p>No hay productos en el carrito.</p>
+  <a href="{% url 'tienda:listado' %}" class="btn btn-secondary">Volver a la tienda</a>
+  {% endif %}
 {% endif %}
 {% endblock content %}

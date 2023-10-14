@@ -1,8 +1,8 @@
 {% extends "pages/base.html" %}
 
 {% block content %}
-  <h1>Confirmación de Compra</h1>
-  <p>Gracias por tu compra, {{ compra.usuario.username }}.</p>
+  <h1>Compra cancelada</h1>
+  <p>La compra ha sido cancelada, {{ compra.usuario.username }}.</p>
   <p>Tu número de compra es: {{ compra.id }}.</p>
   <p>Total de la compra: ${{ compra.total }}</p>
   <p>Teléfono de contacto: {{ compra.telefono }}</p>
@@ -15,5 +15,4 @@
   </ul>
   
   <p>Esperamos que disfrutes tus productos. ¡Gracias por tu preferencia!</p>
-  <a href="{% url 'tienda:listado' %}" class="btn btn-secondary">Volver a la tienda</a>
 {% endblock %}

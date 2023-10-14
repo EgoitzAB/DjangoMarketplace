@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extrahead %}
-<link rel="stylesheet" href="{% get_static_prefix %}css/style.css">
+<link rel="stylesheet" href="{% static 'css/retoque.css' %}">
 
 
 
@@ -56,16 +56,16 @@ Nuestros productos
         
         {% for product in productos %}
         <div class="col">
-          <div class="card h-100 card-principal-listado">
-            <div class="hover-container position-relative overflow-hidden">
+          <div class="card card-principal-listado">
+            <div class="hover-container">
               <div class="card-body text-center">
                 <h5 class="card-title">{{ product.name }}</h5>
                 {% if product.fotos %}
                   <a href="{{ product.slug }}">
-                    <img src="{{ product.fotos.url }}" class="card-img-top img-listado mx-auto img-hover-grow" alt="{{ product.name }}">
+                    <img src="{{ product.fotos.url }}" class="card-img-top img-producto" alt="{{ product.name }}">
                   </a>
                 {% else %}
-                  <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-listado mx-auto img-hover-grow" alt="{{ product.name }}">
+                  <img src="{% static 'images/teclado-1725199204.jpeg' %}" class="card-img-top img-producto" alt="{{ product.name }}">
                 {% endif %}
                 <div class="display-hover">
                   <a href="{{ product.slug }}">
@@ -86,9 +86,4 @@ Nuestros productos
 {% endblock content %}
 
 {% block javascript %}
-<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/jquery.sticky.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
 {% endblock javascript %}

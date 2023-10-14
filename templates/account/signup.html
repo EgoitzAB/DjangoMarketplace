@@ -20,7 +20,7 @@
         </div>
         <div class="p-4 bg-white shadow">
           <h3 class="mb-4">{% trans "Sign Up" %}</h3>
-          <form method="POST" action="{% url 'account_signup' %}" id="signup_form" class="signup">
+          <form method="POST" action="{% url 'account_signup' %}" class="signup">
             {% csrf_token %}
             <div class="form-group mt-3">
               <label class="form-control-placeholder" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>

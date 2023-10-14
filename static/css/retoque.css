@@ -4,3 +4,17 @@
   height: 100%;
   object-fit: contain;
 }
+
+/* Agrega una clase a todas las imágenes de productos */
+.img-producto {
+  max-width: 200px; /* Cambia este valor al tamaño máximo deseado */
+  height: auto; /* Establece la altura deseada */
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease-in-out; /* Efecto de transición */
+}
+
+/* Aplica el efecto de crecimiento al pasar el cursor */
+.img-producto:hover {
+  transform: scale(1.1);
+}

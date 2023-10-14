@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-jl)c+l_o!)y@zmv=c+84-4!_+bj2j4u)^l$-o^ky(9jnf9m1tv
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+SITE_ID = 1
 ALLOWED_HOSTS = ['*']
 
 # Django-allauth
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'phonenumber_field',
+    'django_countries',
 
     'tienda.apps.TiendaConfig',
     'compra.apps.CompraConfig',
@@ -185,5 +186,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_MAX_EMAIL_ADDRESSES = 2
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+# Poner los administradores por si acaso ACCOUNT_USERNAME_BLACKLIST (default: [])
